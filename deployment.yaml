@@ -1,0 +1,36 @@
+kind: Service
+apiVersion: v1
+metadata:
+  name: hello-service
+spec:
+  selector:
+    app: maven-hello
+  type: NodePort
+  ports:
+    - protocol: TCP
+      port: 8080
+      targetPort: 8080
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: hello
+  labels:
+    app: maven-hello
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: maven-hello
+  template:
+    metadata:
+      labels:
+        app: maven-hello
+    spec:
+      imagePullSecrets:
+      - name: 172.16.20.53:8080
+      containers:
+      - name: maven
+        image: 172.16.20.53:8080/library/hello-war:${CICD_EXECUTION_SEQUENCE}
+        ports:
+        - containerPort: 8080
