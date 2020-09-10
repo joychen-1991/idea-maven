@@ -28,9 +28,9 @@ spec:
         app: maven-hello
     spec:
       imagePullSecrets:
-      - name: 172.16.20.53:8080
+      - name: registry.cn-beijing.aliyuncs.com
       containers:
       - name: maven
-        image: 172.16.20.53:8080/library/hello-war:${CICD_EXECUTION_SEQUENCE}
+        image: registry.cn-beijing.aliyuncs.com/syhdoc/syhdoc-api:$version
         ports:
         - containerPort: 8080
